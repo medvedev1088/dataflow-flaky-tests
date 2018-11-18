@@ -41,7 +41,9 @@ public class MyPipeline {
     private static PCollectionView<Map<String, String>> getSideInput(
         Pipeline p
     ) {
-        GenerateSequence sequence = GenerateSequence.from(0).to(1).withRate(1, Duration.standardHours(1));
+        GenerateSequence sequence = GenerateSequence.from(0).withRate(1, Duration.standardHours(1));
+        // Only for tests, without .to(1) tests are stalled forever
+        sequence.to(1);
 
         return p
             .apply("GenerateSequence", sequence)
